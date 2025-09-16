@@ -24,3 +24,17 @@ export const getNotes = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const updateNote = async (req, res) => {
+    try {
+        const { title, content } = req.body
+        const updateNote = await Note.findByIdAndUpdate(req.params.id, { title, content }, { new: true })
+        if (!updateNote)
+        {
+            return res.status(404).json({message:"Note not updated"})
+        }
+        res.status(200).json(updateNote)
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+}
